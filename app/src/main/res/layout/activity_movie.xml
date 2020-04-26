@@ -38,6 +38,7 @@
 
                     <ImageView
                         android:id="@+id/ivMovieLarge"
+                        bind:posterPath="@{movie.posterPath}"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:fitsSystemWindows="true"
@@ -57,7 +58,8 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include layout="@layout/content_movie"
-            bind:movie = "@{movie}"/>
+            android:id="@+id/secondary_layout"
+            bind:secondaryMovie = "@{movie}"/>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

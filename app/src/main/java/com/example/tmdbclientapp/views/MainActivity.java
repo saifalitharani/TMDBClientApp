@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         getPopularMovies();
-        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = activityMainBinding.swipeRefreshLayout;
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showOnRecyclerView() {
-        recyclerView = findViewById(R.id.rvMovies);
+        recyclerView = activityMainBinding.rvMovies;
         movieAdapter = new MovieAdapter(this, movies);
 
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {

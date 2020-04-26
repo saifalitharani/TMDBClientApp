@@ -9,10 +9,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.tmdbclientapp.R;
+import com.example.tmdbclientapp.databinding.MovieListItemBinding;
 import com.example.tmdbclientapp.model.Movie;
 import com.example.tmdbclientapp.views.MovieActivity;
 
@@ -30,22 +32,17 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movie_list_item, parent, false);
-        return new MovieViewHolder(view);
+        MovieListItemBinding movieListItemBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.movie_list_item,
+                parent,
+                false);
+        return new MovieViewHolder(movieListItemBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        holder.movieTitle.setText(movies.get(position).getOriginalTitle());
-        holder.movieRating.setText(Double.toString(movies.get(position).getPopularity()));
-        String imagePath =  context.getResources().getString(R.string.image_base_url) + movies.get(position).getPosterPath();
-
-        Glide.with(context)
-                .load(imagePath)
-                .placeholder(R.drawable.loading)
-                .into(holder.movieImage);
-
-
+        holder.movieListItemBinding.setMovie(movies.get(position));
     }
 
     @Override
@@ -54,17 +51,13 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public class MovieViewHolder extends RecyclerView.ViewHolder {
-        private ImageView movieImage;
-        private TextView movieTitle;
-        private TextView movieRating;
+        private MovieListItemBinding movieListItemBinding;
 
-        public MovieViewHolder(@NonNull View itemView) {
-            super(itemView);
-            movieImage = itemView.findViewById(R.id.ivMovie);
-            movieTitle = itemView.findViewById(R.id.tvTitle);
-            movieRating = itemView.findViewById(R.id.tvRating);
+        public MovieViewHolder(@NonNull MovieListItemBinding movieListItemBind) {
+            super(movieListItemBind.getRoot());
+            this.movieListItemBinding = movieListItemBind;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            movieListItemBinding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, MovieActivity.class);
